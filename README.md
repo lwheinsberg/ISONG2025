@@ -16,8 +16,7 @@ The goal: **show how to responsibly partner with generative AI while maintaining
 
 ## Contents
 
-**Main document (practical, annotated example):**  
-→ [ISONG_2025.md](ISONG_2025.md)
+**Main document (practical, annotated example):** [ISONG_2025.md](ISONG_2025.md)
 
 This walks through:
 
