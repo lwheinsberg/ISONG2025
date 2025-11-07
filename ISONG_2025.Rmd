@@ -10,21 +10,20 @@ header-includes:
 - \usepackage{fvextra}
 - \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
 output:
-  html_document:
-    df_print: paged
-    toc: true
-    number_sections: true
-    toc_depth: '4'
-    code_folding: show
-    keep_md: true
+  github_document:
   #html_preview: false
   #toc: true
   pdf_document:
     toc: true
     number_sections: true
     toc_depth: 4
-  #github_document:
-#   md_extensions: +raw_attribute
+  html_document:
+    df_print: paged
+    toc: true
+    number_sections: true
+    toc_depth: '4'
+    code_folding: show
+  md_extensions: +raw_attribute
 ---
 
 ```{r,echo=FALSE,message=FALSE,warning=FALSE}
