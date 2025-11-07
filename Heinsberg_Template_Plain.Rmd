@@ -1,0 +1,76 @@
+---
+title: "Project/Paper Title"
+subtitle: "Workflow X: Brief Description"
+author: "Name"
+date: "`r format(Sys.time(), '%B %d, %Y, %R')`"
+header-includes:
+- \usepackage{pdflscape}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
+- \usepackage{fvextra}
+- \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    number_sections: true
+    toc_depth: '4'
+    code_folding: show
+  #html_preview: false
+  #toc: true
+  pdf_document:
+    toc: true
+    number_sections: true
+    toc_depth: 4
+  #github_document:
+#   md_extensions: +raw_attribute
+---
+
+```{r,echo=FALSE,message=FALSE,warning=FALSE}
+require(knitr)
+# Set so that long lines in R will be wrapped:
+opts_chunk$set(tidy.opts=list(width.cutoff=80),tidy=TRUE)
+```
+
+```{r,echo=FALSE}
+# In the event of a crash, save the working space on exit:
+save_all <- function() {
+  save.image("recover.RData")
+}
+options(error = save_all)
+```
+
+# Load libraries
+
+```{r, warning=FALSE, message=FALSE}
+
+```
+
+# Project notes
+
+[BLAH]
+
+# Load data 
+
+```{r}
+
+```
+
+# Section 1
+
+```{r}
+
+```
+
+# Section 2 
+
+```{r}
+
+```
+
+# Session Information
+
+```{r session}
+sessionInfo()
+```
+

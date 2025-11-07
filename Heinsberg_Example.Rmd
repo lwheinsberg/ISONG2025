@@ -1,0 +1,358 @@
+---
+title: "Project/Paper Title"
+subtitle: "Workflow X: Brief Description"
+author: "Lacey W. Heinsberg"
+date: "`r format(Sys.time(), '%B %d, %Y, %R')`"
+header-includes:
+- \usepackage{pdflscape}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
+- \usepackage{fvextra}
+- \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+output:
+  html_document:
+    df_print: paged
+    toc: true
+    number_sections: true
+    toc_depth: '4'
+    code_folding: show
+  #html_preview: false
+  #toc: true
+  pdf_document:
+    toc: true
+    number_sections: true
+    toc_depth: 4
+  #github_document:
+#   md_extensions: +raw_attribute
+---
+
+```{r,echo=FALSE,message=FALSE,warning=FALSE}
+require(knitr)
+# Set so that long lines in R will be wrapped:
+opts_chunk$set(tidy.opts=list(width.cutoff=80),tidy=TRUE)
+```
+
+```{r,echo=FALSE}
+# In the event of a crash, save the working space on exit:
+save_all <- function() {
+  save.image("recover.RData")
+}
+options(error = save_all)
+```
+
+# Load libraries
+
+My personal preference is to load all libraries in one chunk at the beginning. If you feel like being extra, you can annotate what the packages are used for (examples below). 
+
+```{r, warning=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(openxlsx)
+library(tableone) # Table 1
+library(tidyverse)
+library(ggplot2) # Plotting
+library(ggforce) # Plotting
+library(broom) # Tidy regression results
+# Etc. 
+```
+
+# Project notes
+
+## Overview
+
+At this point, I would briefly describe the research question, variables, parent study, data sources, etc. For example: 
+
+The purpose of this study is to examine associations between DNA methylation in the ABC gene and patient oucomes after aSAH. This study builds on an existing aSAH cohort (n=648) with patient outcome follow-up. Acute outcomes included in-hospital cerebral vasospasm and delayed cerebral ischemia. Long-term outcomes included death and Glasgow Outcome Scale [GOS, dichotomized] at 3 and 12 months post-aSAH. Genome-wide DNAm data were available for a subset of participants (n=197). The ABC gene was selected based on a literature review. Important covariates for this study include age, sex, and injury severity (Fisher grade). 
+
+[I might add other information, but you get the idea.]
+
+## Abbreviations 
+
+aSAH=Aneurysmal subarachnoid hemorrhage             
+DNAm=DNA methylation 
+CV=cerebral vasospasm 
+DCI=delayed cerebral ischemia 
+Etc. 
+
+## [Anything useful that you can think of for future you or your team]
+
+You can really turn this section into anything you want! It is just like a mini "README". 
+
+# Load data 
+
+Next, I would load the data! For this section, I like to list the file names and sources. For example I might say: 
+
+aSAH_phenotype.csv: Phenotype data received from Dr. X on 6/13/2025. Contains ALL participants consented for genetics. 
+
+aSAH_methylation.xlsx: DNAm data recceived from Dr. X on 5/25/2025. Contains 13 DNA methylation sites in the ABC gene. 
+
+aSAH_methylation_annotation.xlsx: DNAm annotation data received from Dr. X on 5/25/2025.
+
+## Read in data files 
+
+```{r}
+# Read in the data 
+#phen <- read.csv("aSAH_phenotype.csv")
+#meth <- read.xlsx("EETR_20250411.xlsx")
+#ann <- read.xlsx("aSAH_methylation_annotation.xlsx")
+```
+
+## Merge data
+
+Combine phenotype and methylation data to create an analysis file called `df`.
+
+```{r}
+# Merge data
+#df <- merge(phen, meth, by.x="ID", by.y="Subject_ID", all=TRUE)
+```
+
+## Clean data 
+
+For this section I would do things like recoding sex, cases / controls, filtering out participants that shouldn't be in the data set, etc.
+
+```{r}
+# Code code code 
+# Clean clean clean 
+# Code code code
+```
+
+At the end of this section, I have a beautiful analysis data set that is clean and pretty! 
+
+Since I am making all of this up, I don't actually have files to read in ... so I will just simulate some data instead so that I can demonstrate a few things. 
+
+ChatGPT 4o used to create simulation code. 
+
+```{r}
+# Set seed for reproducibility
+set.seed(2025)
+
+# Number of participants
+n <- 648
+
+# Simulate data
+df <- tibble(
+  ID = sprintf("ID_%04d", 1:n),                      # ID with zero padding
+  age = round(rnorm(n, mean = 55, sd = 10)),         # Age around 55 years old
+  sex = sample(c("Male", "Female"), n, replace = TRUE), # Sex
+  fisher_grade = sample(2:4, n, replace = TRUE, prob = c(0.3, 0.4, 0.3)), # Fisher grade
+  CV = rbinom(n, 1, prob = 0.25),                    # CV event with 25% probability
+  DCI = rbinom(n, 1, prob = 0.3)                     # DCI event with 30% probability
+)
+
+# Add 13 methylation sites with M-values from -2 to 2
+for (i in 1:13) {
+  cg_name <- paste0("cg", i)
+  df[[cg_name]] <- runif(n, min = -2, max = 2)
+}
+
+# View first few rows
+head(df)
+```
+
+```{r}
+# TableOne prefers factors for categorical variables
+df$sex <- factor(df$sex)
+df$fisher_grade <- factor(df$fisher_grade, levels = c(2, 3, 4))
+df$CV <- factor(df$CV, labels = c("No", "Yes"))
+df$DCI <- factor(df$DCI, labels = c("No", "Yes"))
+```
+
+# Descriptives 
+
+I usually like to start by understanding my data. 
+
+## Table 1: Participant characteristics 
+
+```{r}
+# Create Table 1 comparing by CV status
+vars <- c("age", "sex", "fisher_grade")
+table1 <- CreateTableOne(vars = vars, data = df)
+print(table1, showAllLevels = TRUE)
+
+# Note that you can also stratify by a factor in your data set (e.g., CV (or APOE genotype!))
+table1 <- CreateTableOne(vars = vars, strata = "CV", data = df)
+print(table1, showAllLevels = TRUE)
+
+# You can also read the package literature to compute median (IQR) for skewed variables, and 
+# several other customization features
+```
+
+## Histograms (DNAm) 
+
+ChatGPT 4o used to create histogram plots.
+
+```{r}
+# Gather DNAm variables into long format for easy plotting
+df_long <- df %>%
+  pivot_longer(cols = starts_with("cg"), names_to = "CpG_site", values_to = "M_value")
+
+# Plot histogram of M values across all sites
+ggplot(df_long, aes(x = M_value)) +
+  geom_histogram(binwidth = 0.2, fill = "skyblue", color = "white") +
+  facet_wrap(~ CpG_site, scales = "free_y") +
+  labs(title = "Distribution of DNA Methylation (M-values) by CpG Site",
+       x = "M-value", y = "Count")
+```
+
+### [Etc. etc. etc.]
+
+## Bivariate analyses 
+
+## Sina with violoin plots (DNAm x Outcome)
+
+### Figure S1: CV
+
+```{r}
+p <- ggplot(df_long, aes(x = CV, y = M_value, fill = CV)) +
+  geom_violin(trim = FALSE, alpha = 0.5) +
+  geom_sina(color = "black", size = 0.5) +
+  facet_wrap(~ CpG_site, scales = "free_y") +
+  labs(title = "Figure S1. DNA Methylation by CV Status",
+       x = "Cerebral Vasospasm (CV)", y = "M-value") 
+p
+
+# Save the plot
+ggsave(
+  filename = "FAKE_FigureS1.png",
+  plot = p,
+  width = 10,
+  height = 10,
+  dpi = 300
+)
+```
+
+Add formal statistial tests / p-values as desired. 
+
+### Figure S2: DCI 
+
+```{r}
+p <- ggplot(df_long, aes(x = DCI, y = M_value, fill = DCI)) +
+  geom_violin(trim = FALSE, alpha = 0.5) +
+  geom_sina(color = "black", size = 0.5) +
+  facet_wrap(~ CpG_site, scales = "free_y") +
+  labs(title = "Figure S1. DNA Methylation by DCI Status",
+       x = "Cerebral Vasospasm (DCI)", y = "M-value") 
+p
+
+# Save the plot
+ggsave(
+  filename = "FAKE_FigureS2.png",
+  plot = p,
+  width = 10,
+  height = 10,
+  dpi = 300
+)
+```
+Etc. etc. etc.....
+
+# Regression analyses
+
+Next we will move on to formal regression analysis. This can be split up by Aim / sub aim or organized however makes sense for your project. For me, let's imagine that we have already mapped out what we want for each of our tables, so I know that I want this to be my primary association results that we will put in Aim 2. 
+
+## Table 2: DNAm ~ Outcome 
+
+We have two outcomes of interest CV and DCI. We have 13 CpG sites of interest (cg1-13). So let's build a loop for this. 
+
+First, I want to start with a hard coded regression. 
+
+```
+mod <- lm(cg1 ~ CV + age + sex + fisher_grade, data=df)
+summary(mod)
+confint(mod)
+plot(mod)
+```
+
+Next, I am going to turn the chunk above off and build out a loop.
+
+```{r}
+# Define CpG sites and outcomes
+cpgs <- paste0("cg", 1:13)
+outcomes <- c("CV", "DCI")
+
+# Initialize an empty data frame
+final_results <- data.frame()
+
+# Loop through CpGs and outcomes
+for (cpg in cpgs) {
+  for (outcome in outcomes) {
+    
+    # Build model formula
+    formula <- as.formula(paste(cpg, "~", outcome, "+ age + sex + fisher_grade"))
+    
+    # Fit model
+    mod <- lm(formula, data = df)
+    
+    # Tidy and filter to only the outcome term
+    result <- tidy(mod, conf.int = TRUE) %>%
+      filter(term == paste0(outcome, "Yes")) %>%
+      mutate(CpG = cpg, Outcome = outcome)
+    
+    # Append to final results
+    final_results <- rbind(final_results, result)
+  }
+}
+
+# Clean up and reorder columns
+cleaned_results <- final_results %>%
+  select(
+    Outcome,
+    CpG,
+    estimate,
+    std.error,
+    conf.low,
+    conf.high,
+    p.value
+  )
+
+# View cleaned results
+head(cleaned_results)
+```
+
+View p <- 0.05
+
+```{r}
+significant_results <- cleaned_results %>%
+  filter(p.value < 0.05) %>%
+  arrange(p.value)
+
+significant_results 
+```
+
+Wah wah wah. :/ 
+
+## Forest plots of results 
+
+```{r}
+# Split the results
+cv_results <- cleaned_results %>% filter(Outcome == "CV")
+dci_results <- cleaned_results %>% filter(Outcome == "DCI")
+
+# Function to plot forest plot
+plot_forest <- function(data, title) {
+  ggplot(data, aes(x = estimate, y = reorder(CpG, estimate))) +
+    geom_point() +
+    geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), height = 0.2) +
+    geom_vline(xintercept = 0, linetype = "dashed", color = "gray") +
+    labs(title = title,
+         x = "Effect Estimate (Beta)",
+         y = "CpG Site") +
+    theme_minimal(base_size = 12)
+}
+
+# Plot 1: CV
+plot_forest(cv_results, "Forest Plot: CV Outcome")
+
+# Plot 2: DCI
+plot_forest(dci_results, "Forest Plot: DCI Outcome")
+```
+
+Etc. etc. etc. 
+
+Keep building code from here! But I hope this was a helfpul template / example for getting started! 
+
+# Session Information
+
+```{r session}
+sessionInfo()
+```
+

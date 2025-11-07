@@ -35,8 +35,10 @@ This walks through:
 | File | Purpose |
 |------|---------|
 | [ExampleAnalysisPlan.docx](ExampleAnalysisPlan.docx) | Template one-page analytic pre-specification plan |
-| [SyntheticDataGemInstructions.txt](SyntheticDataGemInstructions.txt) | Instructions to create your own Gemini “Synthetic Data” Gem |
+| [SyntheticDataGemInstructions.txt](SyntheticDataGemInstructions.txt) | Instructions to create your own Gemini "Synthetic Data"" Gem |
 | ISONG Slides | Slides from ISONG Talk - Coming Soon |
+| [Heinsberg_Example.Rmd](Heinsberg_Example.Rmd) | Example R markdown template with annotation|
+| [Heinsberg_Template_Plain.Rmd](Heinsberg_Template_Plain.Rmd) | Example R markdown template, plain|
 
 ---
 
