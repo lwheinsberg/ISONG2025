@@ -2,7 +2,7 @@
 title: "Partnering with AI for Genomic Informatics"
 subtitle: "A Practical Annotated Workflow with Example Prompts"
 author: "Lacey W. Heinsberg"
-date: "November 07, 2025, 17:28"
+date: "November 07, 2025, 17:30"
 header-includes:
 - \usepackage{pdflscape}
 - \newcommand{\blandscape}{\begin{landscape}}
@@ -465,7 +465,7 @@ df_long %>%
     labs(title = "Mean Fatigue Over Time by rs1 Genotype (0/1/2)", x = "Time", y = "Mean Fatigue (0–50)")
 ```
 
-![](README_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](ISONG_2025_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 
 Etc. Etc! Continue to interact with your GPT like this! 
