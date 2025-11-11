@@ -46,6 +46,10 @@ This document was created in collaboration with ChatGPT 5 to support a 2025 ISON
 
 The author (Dr. Lacey W. Heinsberg) drafted the scientific content herself and used ChatGPT 5 for language editing, organization, and formatting suggestions only. She reviewed, revised, and edited all content, and takes full responsibility for the final product.          
 
+# Copyright
+
+Copyright 2025, University of Pittsburgh. All Rights Reserved. License: GPL-2
+
 # Scenario 
 
 Imagine we are a research team studying individuals with breast cancer. We have collected longitudinal symptom data (fatigue, pain, sleep, cognition) and SNP genotype data for each participant. Our paper’s aim is:

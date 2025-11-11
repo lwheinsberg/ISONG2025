@@ -1,7 +1,7 @@
 Partnering with AI for Genomic Informatics
 ================
 Lacey W. Heinsberg
-November 07, 2025, 17:33
+November 10, 2025, 20:12
 
 
 
@@ -25,6 +25,11 @@ The author (Dr. Lacey W. Heinsberg) drafted the scientific content
 herself and used ChatGPT 5 for language editing, organization, and
 formatting suggestions only. She reviewed, revised, and edited all
 content, and takes full responsibility for the final product.
+
+# Copyright
+
+Copyright 2025, University of Pittsburgh. All Rights Reserved. License:
+GPL-2
 
 # Scenario
 

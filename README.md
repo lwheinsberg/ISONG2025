@@ -4,6 +4,9 @@ This repository supports the ISONG 2025 Expert Lecture:
 
 *Heinsberg LW. Partnering with AI for Genomic Informatics: Practical Workflows for Data Analysis and Interpretation. International Society of Nurses in Genetics, Nov 2025, Montreal, Canada.*
 
+## Copyright 
+Copyright 2025, University of Pittsburgh. All Rights Reserved. License: GPL-2
+
 ---
 
 ## What is in this repo?
@@ -33,7 +36,7 @@ This walks through:
 
 | File | Purpose |
 |------|---------|
-| [ExampleAnalysisPlan.docx](ExampleAnalysisPlan.docx) | Template one-page analytic pre-specification plan |
+| [ExampleAnalysisPlan.pdf](ExampleAnalysisPlan.pdf) | Template one-page analytic pre-specification plan |
 | [SyntheticDataGemInstructions.txt](SyntheticDataGemInstructions.txt) | Instructions to create your own Gemini "Synthetic Data"" Gem |
 | [ISONG_Slides.pdf](ISONG_Slides.pdf) | Slides from ISONG Talk |
 | [Heinsberg_Example.Rmd](Heinsberg_Example.Rmd) | Example R markdown template with annotation|
